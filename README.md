@@ -26,16 +26,27 @@ y = pd.DataFrame(data[1])
 
 #init the classifier
 kn = KNeighborsClassifier()
-param = {"n_neighbors": [int(x) for x in np.linspace(1, 300, 30)],
-         "leaf_size": [int(x) for x in np.linspace(1, 200, 30)],
+param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
+         "leaf_size": [int(x) for x in np.linspace(1, 60, 30)],
          "p": [1, 2, 3, 4, 5, 10, 20],
          "algorithm": ['auto', 'ball_tree', 'kd_tree', 'brute'],
          "weights": ["uniform", "distance"]}
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, 10000, 20, cv=5, scorer="f1", verbose=2, params=param)
+search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
 
 #apply best parameters
 kn.set_params(**search.best_params)```
+
+## HyperSearch Parameters
+
+iters (default 500 [int]) - number of iterations to try before early stopping
+time_to_search (default None [int]) - time in seconds to run for before early stopping (None = no time limit)
+cv (default 5 [int]) - number of folds to use in cross_vaidation tests
+scorer (default "f1" [str]) - type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+verbose (default 1 [int]) - amount of verbosity 0 = none 1 = some 2 = debug
+random (default - False) - should the data be randomized during the cross validation
+foldtype (default "Kfold" [str]) - type of folds to use - accepts "KFold", "Stratified"
+

@@ -1,14 +1,15 @@
 import pandas as pd
 import numpy as np
-from skiperopt import search
-
+import skperopt as sk
 from sklearn.datasets import make_classification
+from sklearn.neighbors import KNeighborsClassifier
 
-data = make_classification(n_samples=1000,n_features=10,n_classes=2)
+#generate classification data
+data = make_classification(n_samples=1000, n_features=10, n_classes=2)
 X = pd.DataFrame(data[0])
 y = pd.DataFrame(data[1])
 
-from sklearn.neighbors import KNeighborsClassifier
+#init the classifier
 kn = KNeighborsClassifier()
 param = {"n_neighbors": [int(x) for x in np.linspace(1, 300, 30)],
          "leaf_size": [int(x) for x in np.linspace(1, 200, 30)],
@@ -16,6 +17,10 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 300, 30)],
          "algorithm": ['auto', 'ball_tree', 'kd_tree', 'brute'],
          "weights": ["uniform", "distance"]}
 
-search = search.HyperSearch(kn,X,y,10000,20,cv=5,scorer="f1",verbose=1,params=param)
+
+#search parameters
+search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
+
+#apply best parameters
 kn.set_params(**search.best_params)

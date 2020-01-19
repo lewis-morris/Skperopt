@@ -8,5 +8,7 @@ setup(
     license='MIT',
     author='Lewis',
     author_email='lewis.morris@gmail.com',
-    description='Hyperopt Wrapper', install_requires=['numpy', 'pandas', 'sklearn', 'hyperopt']
+    description='Hyperopt Wrapper',
+    instal_requires=['numpy', 'pandas', 'sklearn', 'hyperopt'],
+    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.01.tar.gz'
 )

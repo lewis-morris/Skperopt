@@ -10,5 +10,5 @@ setup(
     author_email='lewis.morris@gmail.com',
     description='Hyperopt Wrapper',
     instal_requires=['numpy', 'pandas', 'sklearn', 'hyperopt>=0.2.3'],
-    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.01.tar.gz'
+    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.02.tar.gz'
 )

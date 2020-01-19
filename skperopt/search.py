@@ -6,12 +6,13 @@ import numpy
 import pandas
 from sklearn.metrics import f1_score, roc_auc_score, accuracy_score
 
-from hyperopt.base  import STATUS_SUSPENDED
-from hyperopt.base  import STATUS_OK
-from hyperopt.base  import Trials
+from hyperopt.base import STATUS_SUSPENDED
+from hyperopt.base import STATUS_OK
+from hyperopt.base import Trials
 from hyperopt.fmin import fmin
 from hyperopt import tpe
 from hyperopt import hp
+
 
 def scorer_is_better(test_type, new_score, old_score):
     if type(test_type) == list:
@@ -27,6 +28,7 @@ def scorer_is_better(test_type, new_score, old_score):
             return True
         else:
             return False
+
 
 def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=False, split_type="Stratified"):
     """
@@ -84,6 +86,7 @@ def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=Fa
     else:
         return score_list
 
+
 def StratifiedKFolds(X, y, folds=5, random=False):
     # join X & y
 
@@ -102,14 +105,14 @@ def StratifiedKFolds(X, y, folds=5, random=False):
     for x in df.iloc[:, -1].value_counts().index:
         index = df[df.iloc[:, -1] == x].index.values.tolist()
         rnd.seed(10)
-        if random: rnd.shuffle(index)
+        if random:
+            rnd.shuffle(index)
         df_dic[x] = index
 
     # create start position dict
     start_dic = {k: 0 for k, v in df_dic.items()}
 
     # create df dict for concatenation
-    dic_df = {}
 
     # loop folds
     for x in range(1, folds + 1):
@@ -143,6 +146,7 @@ def StratifiedKFolds(X, y, folds=5, random=False):
             train = train.loc[ind1]
 
         yield train.iloc[:, 0:-1], test.iloc[:, 0:-1], train.iloc[:, -1::], test.iloc[:, -1::]
+
 
 def get_score(y_true, y_pred, scorer):
     """
@@ -183,6 +187,7 @@ def get_splitter(split_type):
     elif split_type == "Kfold":
         return KFoldSplits
 
+
 def change_to_df(df):
     """Makes sure that the input data is dataframe format if not it is converted
     also makes sure that the column names are in string format"""
@@ -190,6 +195,7 @@ def change_to_df(df):
         df = pandas.DataFrame(df)
     df.columns = [str(x) for x in df.columns.tolist()]
     return df
+
 
 def KFoldSplits(X, y, folds=3, random=False):
     """
@@ -212,7 +218,8 @@ def KFoldSplits(X, y, folds=3, random=False):
         df = pandas.concat([X.reset_index(drop=True), y.reset_index(drop=True)], axis=1)
         index = df.index.values.tolist()
         rnd.seed(10)
-        if random: rnd.shuffle(index)
+        if random:
+            rnd.shuffle(index)
         df = df.loc[index]
         X = df.iloc[:, 0:-1]
         y = df.iloc[:, -1::]
@@ -241,14 +248,15 @@ def KFoldSplits(X, y, folds=3, random=False):
 
         yield X_train, X_test, y_train, y_test
 
+
 def create_hyper(paramgrid):
     new_grid = {}
-    for k,v in paramgrid.items():
-        new_grid[k] = hp.choice(k,v)
+    for k, v in paramgrid.items():
+        new_grid[k] = hp.choice(k, v)
     return new_grid
 
-class HyperSearch():
 
+class HyperSearch:
     """
     A parameter searing algorithm wrapper that uses TPE to search for the best parameters,
     implements early stopping. Accepts sklearn style estimators as the input EST
@@ -274,19 +282,22 @@ class HyperSearch():
 
     """
 
-    def __init__(self, est, X, y, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1,params={}):
+    def __init__(self, est, X, y, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1, params=None):
 
-        #check and get skiperopt style parameters
+        # check and get skiperopt style parameters
+        if params is None:
+            params = {}
         if params == {}:
             raise ValueError("No parameters supplied")
         self.params = params
+        self.best_params = None
         self.__space = create_hyper(params)
-
-        #set hyper settings
+        self.initparams = est.get_params()
+        # set hyper settings
         self.__algo = tpe.suggest
         self.__trial = Trials()
 
-        #set run settings
+        # set run settings
         self.verbose = verbose
         self.iters = iters
         self.cv = cv
@@ -302,22 +313,25 @@ class HyperSearch():
         self.__X = X
         self.__y = y
 
+        self.start_now = None
+
         self.__runok = True
         self.time_to_search = time_to_search
 
-        if self.verbose > 0: print(f"Initial Score is {self.best_score}")
+        if self.verbose > 0:
+            print(f"Initial Score is {self.best_score}")
 
     def __objective(self, params):
         """Objective function for Gradient Boosting Machine Hyperparameter Tuning"""
 
-        if self.__runok == True:
+        if self.__runok:
             est = copy.deepcopy(self.est)
             try:
                 est.set_params(**params)
                 best_score = cross_validation(est, self.__X, self.__y, cv=self.cv, scorer=self.scorer)
 
                 # Loss must be minimized
-                if self.scorer in ["f1","auc","accuracy"]:
+                if self.scorer in ["f1", "auc", "accuracy"]:
                     loss = 1 - best_score
                 else:
                     loss = best_score
@@ -360,15 +374,15 @@ class HyperSearch():
         """
         self.start_now = datetime.datetime.now()
 
+        best = fmin(fn=self.__objective, space=self.__space, algo=self.__algo,
+             max_evals=self.iters, trials=self.__trial, verbose=self.verbose,
+             timeout=self.time_to_search)
+
         print("Starting HyperOpt Parameter Search")
 
         self.__reset()
 
-        best = fmin(fn=self.__objective, space=self.__space, algo=self.__algo,
-                    max_evals=self.iters, trials=self.__trial, verbose=self.verbose, timeout=self.time_to_search)
-
         if self.best_score > self.__init_score:
             self.best_params = self.__trial.best_trial["result"]["params"]
         else:
-            self.best_params = None
-
+            self.best_params = self.initparams

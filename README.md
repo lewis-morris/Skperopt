@@ -12,7 +12,7 @@ Its super easy to use Skperopt -
 
 Code example below.
 
-'''python
+```python
 import pandas as pd
 import numpy as np
 import skperopt as sk
@@ -38,4 +38,4 @@ search = sk.HyperSearch(kn, X, y, 10000, 20, cv=5, scorer="f1", verbose=2, param
 search.search()
 
 #apply best parameters
-kn.set_params(**search.best_params)'''
+kn.set_params(**search.best_params)```

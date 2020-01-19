@@ -282,7 +282,7 @@ class HyperSearch:
 
     """
 
-    def __init__(self, est, X, y, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1, params=None):
+    def __init__(self, est, X, y, params=None, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1, random = False, foldtype = "Kfold"):
 
         # check and get skiperopt style parameters
         if params is None:
@@ -318,6 +318,9 @@ class HyperSearch:
         self.__runok = True
         self.time_to_search = time_to_search
 
+        self.random = random
+        self.foldtype = foldtype
+
         if self.verbose > 0:
             print(f"Initial Score is {self.best_score}")
 
@@ -328,7 +331,10 @@ class HyperSearch:
             est = copy.deepcopy(self.est)
             try:
                 est.set_params(**params)
-                best_score = cross_validation(est, self.__X, self.__y, cv=self.cv, scorer=self.scorer)
+                best_score = cross_validation(est, self.__X, self.__y,
+                                              cv=self.cv, scorer=self.scorer,
+                                              split_type=self.foldtype,
+                                              random=self.random)
 
                 # Loss must be minimized
                 if self.scorer in ["f1", "auc", "accuracy"]:

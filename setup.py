@@ -1,0 +1,12 @@
+from setuptools import setup
+
+setup(
+    name='Skperopt',
+    version='0.01',
+    packages=['skperopt'],
+    url='https://github.com/lewis-morris/Skperopt',
+    license='MIT',
+    author='Lewis',
+    author_email='lewis.morris@gmail.com',
+    description='Hyperopt Wrapper', install_requires=['numpy', 'pandas', 'sklearn', 'hyperopt']
+)

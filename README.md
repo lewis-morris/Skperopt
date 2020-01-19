@@ -38,7 +38,9 @@ search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
 
 #apply best parameters
-kn.set_params(**search.best_params)```
+kn.set_params(**search.best_params)
+
+```
 
 ## HyperSearch Parameters
 

@@ -15,7 +15,7 @@ setup(
     author_email='lewis.morris@gmail.com',
     description='Hyperopt Wrapper',
     install_requires=requirements,
-    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.1.tar.gz',
+    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.2.tar.gz',
     keywords=['hyperopt-wrapper', 'hyperparameter'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

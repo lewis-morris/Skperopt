@@ -1,3 +1,8 @@
+requirements = []
+with open('requirements.txt', 'r') as fh:
+    for line in fh:
+        requirements.append(line.strip())
+
 from setuptools import setup
 
 setup(
@@ -9,7 +14,7 @@ setup(
     author='Lewis',
     author_email='lewis.morris@gmail.com',
     description='Hyperopt Wrapper',
-    instal_requires=['numpy', 'pandas', 'sklearn', 'hyperopt>=0.2.3'],
+    instal_requires=requirements,
     download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.1.tar.gz',
     keywords=['hyperopt-wrapper', 'hyperparameter'],
     classifiers=[

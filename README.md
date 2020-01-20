@@ -42,17 +42,17 @@ kn.set_params(**search.best_params)
 
 ## HyperSearch Parameters
 
-         *iters (default 500 [int]) - number of iterations to try before early stopping
+* iters (default 500 [int]) - number of iterations to try before early stopping
 
-         *time_to_search (default None [int]) - time in seconds to run for before early stopping (None = no time limit)
+* time_to_search (default None [int]) - time in seconds to run for before early stopping (None = no time limit)
 
-         *cv (default 5 [int]) - number of folds to use in cross_vaidation tests
+* cv (default 5 [int]) - number of folds to use in cross_vaidation tests
 
-         *scorer (default "f1" [str]) - type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+* scorer (default "f1" [str]) - type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
 
-         *verbose (default 1 [int]) - amount of verbosity 0 = none 1 = some 2 = debug
+* verbose (default 1 [int]) - amount of verbosity 0 = none 1 = some 2 = debug
 
-         *random (default - False) - should the data be randomized during the cross validation
+* random (default - False) - should the data be randomized during the cross validation
 
-         *foldtype (default "Kfold" [str]) - type of folds to use - accepts "KFold", "Stratified"
+* foldtype (default "Kfold" [str]) - type of folds to use - accepts "KFold", "Stratified"
 

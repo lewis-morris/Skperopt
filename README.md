@@ -4,8 +4,8 @@ A hyperopt wrapper - making it easy to use with Sklearn.
 Just pass in an estimator and a parameter grid and your good to go.
 
 1. Import skperopt
-2. Initalize hyperopt 
-3. Run skperopt.HyperSearch
+2. Initalize skperopt 
+3. Run skperopt.HyperSearch.search
 4. Collect the results
 
 Code example below.

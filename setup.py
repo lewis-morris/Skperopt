@@ -1,5 +1,5 @@
 from setuptools import setup
-f
+
 setup(
     name='Skperopt',
     version='0.02',

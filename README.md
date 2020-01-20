@@ -42,17 +42,23 @@ kn.set_params(**search.best_params)
 
 ## HyperSearch Parameters
 
-* iters (default 500 [int]) - number of iterations to try before early stopping
+* **est** (*[sklearn estimator]*) - any sklearn style estimator
 
-* time_to_search (default None [int]) - time in seconds to run for before early stopping (None = no time limit)
+* **X** (*[pandas Dataframe]*) - your training data
 
-* cv (default 5 [int]) - number of folds to use in cross_vaidation tests
+* **y** (*[pandas Dataframe]*) - your training data
 
-* scorer (default "f1" [str]) - type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+* **iters** (default 500 *[int]*) - number of iterations to try before early stopping
 
-* verbose (default 1 [int]) - amount of verbosity 0 = none 1 = some 2 = debug
+* **time_to_search** (default None *[int]*) - time in seconds to run for before early stopping (None = no time limit)
 
-* random (default - False) - should the data be randomized during the cross validation
+* **cv** (default 5 *[int]*) - number of folds to use in cross_vaidation tests
 
-* foldtype (default "Kfold" [str]) - type of folds to use - accepts "KFold", "Stratified"
+* **scorer** (default "f1" *[str]*) - type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+
+* **verbose** (default 1 *[int]*) - amount of verbosity 0 = none 1 = some 2 = debug
+
+* **random** (default - *False*) - should the data be randomized during the cross validation
+
+* **foldtype** (default "Kfold" *[str]*) - type of folds to use - accepts "KFold", "Stratified"
 

@@ -1,7 +1,9 @@
 # Skperopt
-A hyperopt wrapper - making it easy to use with Sklearn.
+A hyperopt wrapper - Simplifying hyperparameter searching with with Sklearn style estimators.
 
-Just pass in an estimator and a parameter grid and your good to go.
+Usage:
+
+Just pass in an estimator, a parameter grid and and Hyperopt will do the rest. No need do define objectives etc.
 
 1. Import skperopt
 2. Initalize skperopt 
@@ -37,6 +39,10 @@ search.search()
 
 #apply best parameters
 kn.set_params(**search.best_params)
+
+#view run results
+print(search.stats)
+
 
 ```
 

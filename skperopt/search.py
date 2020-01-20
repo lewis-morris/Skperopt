@@ -292,7 +292,7 @@ class HyperSearch:
         self.params = params
         self.best_params = None
         self.__space = create_hyper(params)
-        self.initparams = est.get_params()
+        self.__initparams = est.get_params()
         # set hyper settings
         self.__algo = tpe.suggest
         self.__trial = Trials()
@@ -313,7 +313,7 @@ class HyperSearch:
         self.__X = X
         self.__y = y
 
-        self.start_now = None
+        self.__start_now = None
 
         self.__runok = True
         self.time_to_search = time_to_search
@@ -356,7 +356,7 @@ class HyperSearch:
 
                 # get finish time
                 now_fin = datetime.datetime.now()
-                if self.time_to_search is not None and (now_fin - self.start_now).seconds > self.time_to_search:
+                if self.time_to_search is not None and (now_fin - self.__start_now).seconds > self.time_to_search:
                     if self.verbose > 0:
                         print("Random parameter search stopped early due to time overlapse")
                     self.__runok = False
@@ -379,17 +379,20 @@ class HyperSearch:
         """
         Search the parameter grid
         """
-        self.start_now = datetime.datetime.now()
+        self.__start_now = datetime.datetime.now()
+        self.__reset()
+
+        if self.verbose > 0:
+            print("Starting HyperOpt Parameter Search")
 
         best = fmin(fn=self.__objective, space=self.__space, algo=self.__algo,
              max_evals=self.iters, trials=self.__trial, verbose=self.verbose,
              timeout=self.time_to_search)
 
-        print("Starting HyperOpt Parameter Search")
-
-        self.__reset()
+        if self.verbose > 0:
+            print("Finished HyperOpt Parameter Search")
 
         if self.best_score > self.__init_score:
             self.best_params = self.__trial.best_trial["result"]["params"]
         else:
-            self.best_params = self.initparams
+            self.best_params = self.__initparams

@@ -1,9 +1,9 @@
 from setuptools import setup
-
+f
 setup(
     name='Skperopt',
     version='0.02',
-    packages=setup.find_packages(),
+    packages=["skperopt"],
     url='https://github.com/lewis-morris/Skperopt',
     license='MIT',
     author='Lewis',

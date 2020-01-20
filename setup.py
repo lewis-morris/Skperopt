@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Skperopt',
-    version='0.02',
+    version='0.0.1',
     packages=["skperopt"],
     url='https://github.com/lewis-morris/Skperopt',
     license='MIT',

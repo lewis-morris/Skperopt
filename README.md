@@ -46,7 +46,7 @@ print(search.stats)
 
 ```
 
-## HyperSearch Parameters
+## HyperSearch.search() parameters
 
 * **est** (*[sklearn estimator]*) 
 > any sklearn style estimator

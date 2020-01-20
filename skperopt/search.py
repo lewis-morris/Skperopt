@@ -335,6 +335,8 @@ class HyperSearch:
                                               cv=self.cv, scorer=self.scorer,
                                               split_type=self.foldtype,
                                               random=self.random)
+                if self.verbose > 1:
+                    print(f"Current score = {best_score} and best score = {self.best_score}")
 
                 # Loss must be minimized
                 if self.scorer in ["f1", "auc", "accuracy"]:
@@ -344,11 +346,10 @@ class HyperSearch:
 
                 # check if the latest score is best?
                 if scorer_is_better(self.scorer, best_score, self.best_score):
+                    if self.verbose > 0 and best_score != self.best_score:
+                        print(f"New Best Found - {best_score}")
                     self.best_score = copy.copy(best_score)
                     self.best_params = params
-                    if self.verbose > 0 and best_score != self.best_score:
-                        print(f"Found {best_score}")
-
                 # log in the stats dict
                 self.stats[self.__run] = copy.copy(self.best_score)
                 self.__run += 1

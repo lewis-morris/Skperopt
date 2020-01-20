@@ -19,7 +19,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 300, 30)],
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, params=param)
+search = sk.HyperSearch(kn, X, y, params=param,verbose=2)
 search.search()
 
 #apply best parameters

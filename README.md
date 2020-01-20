@@ -43,7 +43,7 @@ kn.set_params(**search.best_params)
 ## HyperSearch Parameters
 
 * **est** (*[sklearn estimator]*) 
-         any sklearn style estimator
+> any sklearn style estimator
 
 * **X** (*[pandas Dataframe]*) - your training data
 

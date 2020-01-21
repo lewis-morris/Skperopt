@@ -87,10 +87,10 @@ Over 150 iterations and 100 tests of both RandomSearch and Skperopt Search, hype
 
 ![alt chart](./chart.png "Logo Title Text 1")
 
-## Skperopt Results 
+### Skperopt Results 
 
-> Average f1 score over 100 test runs - **0.934093079**
+*Average f1 score over 100 test runs - **0.934093079**
 
-## Random Search
+### Random Search
 
-> Average f1 score over 100 test runs - **0.927461652**
+*Average f1 score over 100 test runs - **0.927461652**

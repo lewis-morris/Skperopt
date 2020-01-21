@@ -89,8 +89,10 @@ Over 150 iterations and 100 tests of both RandomSearch and Skperopt Search, hype
 
 Skperopt 
 > Average f1 score over 100 test runs
+         
          * 0.934093079
 
 Random Search
 > Average f1 score over 100 test runs
+         
          * 0.927461652

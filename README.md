@@ -81,6 +81,9 @@ print(search.stats)
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
 
-[chart]
 
-[chart]: ./chart.png "Stats"
+![alt chart](./chart.png "Logo Title Text 1")
+
+![alt chart]
+
+[alt chart]

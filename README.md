@@ -3,7 +3,13 @@ A hyperopt wrapper - Simplifying hyperparameter searching with with Sklearn styl
 
 Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse".
 
-Usage:
+## Installation:
+
+```
+pip install skperopt
+```
+
+## Usage:
 
 Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
 

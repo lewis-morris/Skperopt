@@ -37,7 +37,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
 search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
 
-#apply best parameters
+#gather and apply the best parameters
 kn.set_params(**search.best_params)
 
 #view run results
@@ -46,7 +46,7 @@ print(search.stats)
 
 ```
 
-## HyperSearch Parameters
+## HyperSearch.search() parameters
 
 * **est** (*[sklearn estimator]*) 
 > any sklearn style estimator

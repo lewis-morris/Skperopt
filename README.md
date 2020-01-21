@@ -42,7 +42,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, params=param)
+search = sk.HyperSearch(kn, X, y, cv=5, scorer='f1', params=param)
 search.search()
 
 #gather and apply the best parameters
@@ -54,16 +54,19 @@ print(search.stats)
 
 ```
 
-## HyperSearch.search() parameters
+## HyperSearch parameters
 
-* **est** (*[sklearn estimator]*) 
+* **est** (*[sklearn estimator]* required) 
 > any sklearn style estimator
 
-* **X** (*[pandas Dataframe]*) 
+* **X** (*[pandas Dataframe]* required) 
 > your training data
 
-* **y** (*[pandas Dataframe]*) 
+* **y** (*[pandas Dataframe]* required) 
 > your training data
+
+* **params** (*[dictionary]* required) 
+> a parameter seach grid 
 
 * **iters** (default 500 *[int]*) 
 > number of iterations to try before early stopping

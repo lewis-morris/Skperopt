@@ -330,6 +330,7 @@ class HyperSearch:
         if self.__runok:
             est = copy.deepcopy(self.est)
             try:
+
                 est.set_params(**params)
                 best_score = cross_validation(est, self.__X, self.__y,
                                               cv=self.cv, scorer=self.scorer,

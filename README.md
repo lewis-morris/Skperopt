@@ -5,12 +5,12 @@ Works with either classification evaluation metrics "f1", "auc" or "accuracy" or
 
 Usage:
 
-         Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
+Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
 
-         1. Import skperopt
-         2. Initalize skperopt 
-         3. Run skperopt.HyperSearch.search
-         4. Collect the results
+1. Import skperopt
+2. Initalize skperopt 
+3. Run skperopt.HyperSearch.search
+4. Collect the results
 
 Code example below.
 

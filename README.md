@@ -66,7 +66,7 @@ print(search.stats)
 > your training data
 
 * **params** (*[dictionary]* required) 
-> a parameter seach grid 
+> a parameter search grid 
 
 * **iters** (default 500 *[int]*) 
 > number of iterations to try before early stopping

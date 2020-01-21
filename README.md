@@ -71,8 +71,11 @@ print(search.stats)
 
 * **verbose** (default 1 *[int]*) 
 > amount of verbosity 
+
          0 = none 
+         
          1 = some 
+         
          2 = debug
 
 * **random** (default - *False*) 
@@ -83,14 +86,24 @@ print(search.stats)
 
 # Testing
 
-Over 150 iterations and 100 tests of both RandomSearch and Skperopt Search, hyperopt performs better than a RandomSearch, producing better results, more consistantly.
+With 100 tests of 150 search iterations for both RandomSearch and Skperopt Searches.
+
+Skperopt (hyperopt) performs better than a RandomSearch, producing better a higher average f1 score with a siligtly smaller standard deviation.
+
 
 ![alt chart](./chart.png "Logo Title Text 1")
 
 ### Skperopt Search Results 
 
-* Average f1 score over 100 test runs - **0.934093079**
+f1 score over 100 test runs:
+
+         Mean **0.9340930**
+         σ **0.0062275**
+
 
 ### Random Search Results
 
-* Average f1 score over 100 test runs - **0.927461652**
+1 score over 100 test runs 
+
+         Mean **0.927461652**
+         σ **0.0063314**

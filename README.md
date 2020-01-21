@@ -81,9 +81,10 @@ print(search.stats)
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
 
+# Testing
+
+Over 150 iterations and 100 tests of both RandomSearch and Skperopt Search, hyperopt performs better than a RandomSearch, producing better results, more consistantly.
 
 ![alt chart](./chart.png "Logo Title Text 1")
 
-![alt chart]
 
-[alt chart]

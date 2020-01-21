@@ -97,13 +97,13 @@ Skperopt (hyperopt) performs better than a RandomSearch, producing better a high
 
 f1 score over 100 test runs:
 
-         Mean **0.9340930**
-         σ **0.0062275**
+> Mean **0.9340930**
+> Standard deviation **0.0062275**
 
 
 ### Random Search Results
 
 1 score over 100 test runs 
 
-         Mean **0.927461652**
-         σ **0.0063314**
+> Mean **0.927461652**
+> Standard deviation **0.0063314**

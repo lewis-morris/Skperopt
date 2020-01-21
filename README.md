@@ -90,7 +90,7 @@ print(search.stats)
 
 With 100 tests of 150 search iterations for both RandomSearch and Skperopt Searches.
 
-Skperopt (hyperopt) performs better than a RandomSearch, producing better a higher average f1 score with a siligtly smaller standard deviation.
+Skperopt (hyperopt) performs better than a RandomSearch, producing higher average f1 score with a smaller standard deviation.
 
 
 ![alt chart](./chart.png "Logo Title Text 1")

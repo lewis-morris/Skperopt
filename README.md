@@ -81,4 +81,4 @@ print(search.stats)
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
 
-[chart]: chart.png "Stats"
+[chart]: ./chart.png "Stats"

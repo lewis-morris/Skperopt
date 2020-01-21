@@ -104,7 +104,7 @@ f1 score over 100 test runs:
 
 ### Random Search Results
 
-1 score over 100 test runs 
+f1 score over 100 test runs 
 
 > Mean **0.927461652**
 

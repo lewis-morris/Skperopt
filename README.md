@@ -1,9 +1,17 @@
 # Skperopt
 A hyperopt wrapper - Simplifying hyperparameter searching with with Sklearn style estimators.
 
-Usage:
+Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse".
 
-Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids.
+## Installation:
+
+```
+pip install skperopt
+```
+
+## Usage:
+
+Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
 
 1. Import skperopt
 2. Initalize skperopt 
@@ -34,7 +42,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, params=param)
+search = sk.HyperSearch(kn, X, y, cv=5, scorer='f1', params=param)
 search.search()
 
 #gather and apply the best parameters
@@ -46,16 +54,19 @@ print(search.stats)
 
 ```
 
-## HyperSearch.search() parameters
+## HyperSearch parameters
 
-* **est** (*[sklearn estimator]*) 
+* **est** (*[sklearn estimator]* required) 
 > any sklearn style estimator
 
-* **X** (*[pandas Dataframe]*) 
+* **X** (*[pandas Dataframe]* required) 
 > your training data
 
-* **y** (*[pandas Dataframe]*) 
+* **y** (*[pandas Dataframe]* required) 
 > your training data
+
+* **params** (*[dictionary]* required) 
+> a parameter search grid 
 
 * **iters** (default 500 *[int]*) 
 > number of iterations to try before early stopping
@@ -71,8 +82,11 @@ print(search.stats)
 
 * **verbose** (default 1 *[int]*) 
 > amount of verbosity 
+
          0 = none 
+         
          1 = some 
+         
          2 = debug
 
 * **random** (default - *False*) 
@@ -81,3 +95,28 @@ print(search.stats)
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
 
+# Testing
+
+With 100 tests of 150 search iterations for both RandomSearch and Skperopt Searches.
+
+Skperopt (hyperopt) performs better than a RandomSearch, producing higher average f1 score with a smaller standard deviation.
+
+
+![alt chart](./chart.png "Logo Title Text 1")
+
+### Skperopt Search Results 
+
+f1 score over 100 test runs:
+
+> Mean **0.9340930**
+
+> Standard deviation **0.0062275**
+
+
+### Random Search Results
+
+f1 score over 100 test runs 
+
+> Mean **0.927461652**
+
+> Standard deviation **0.0063314**

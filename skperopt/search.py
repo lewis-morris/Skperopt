@@ -269,7 +269,7 @@ class HyperSearch:
     :param cv:             the number of folds to base the score on
     :param scorer:         the scoring method used
     :param verbose:        show information? 0 = no, > 0 increases verboseness
-    :param params:         parameter grid
+    :param params:         parameter grid - if a mltooler.SelfImprovingEstimator passed then none needed
 
     Run with:
         HyperSearch.search()
@@ -285,10 +285,11 @@ class HyperSearch:
     def __init__(self, est, X, y, params=None, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1, random = False, foldtype = "Kfold"):
 
         # check and get skiperopt style parameters
-        if params is None:
-            params = {}
-        if params == {}:
+        if params == None and not hasattr(est,"param_grid") :
             raise ValueError("No parameters supplied")
+        else:
+            params = est.param_grid
+
         self.params = params
         self.best_params = None
         self.__space = create_hyper(params)

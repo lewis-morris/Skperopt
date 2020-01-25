@@ -30,7 +30,7 @@ def scorer_is_better(test_type, new_score, old_score):
             return False
 
 
-def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=False, split_type="Stratified"):
+def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=False, split_type="Kfold"):
     """
     Can give input as "Stratified" or "Kfold" for split type:
 
@@ -49,9 +49,11 @@ def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=Fa
         except:
             est.best_score = 0
 
-    if split_type not in ["Stratified", "Kfold"]:
-        print("Error setting split type, defaulting to Kfold")
+    if scorer in ["f1","auc","accuracy"]:
+        split_type = "Stratified"
+    else:
         split_type = "Kfold"
+
 
     score_list = []
 

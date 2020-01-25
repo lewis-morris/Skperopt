@@ -7,7 +7,7 @@ from setuptools import setup
 
 setup(
     name='Skperopt',
-    version='0.0.5',
+    version='0.0.6',
     packages=["skperopt"],
     url='https://github.com/lewis-morris/Skperopt',
     license='MIT',
@@ -15,7 +15,7 @@ setup(
     author_email='lewis.morris@gmail.com',
     description='Hyperopt Wrapper',
     install_requires=requirements,
-    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.5.tar.gz',
+    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.6.tar.gz',
     keywords=['hyperopt-wrapper', 'hyperparameter'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

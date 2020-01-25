@@ -165,7 +165,7 @@ def get_score(y_true, y_pred, scorer):
         if score_type == "f1":
             score_list.append(f1_score(y_true, y_pred, average='macro'))
         elif score_type == "rmse":
-            score_list.append(numpy.math.sqrt(((y_pred - y_true) ** 2).mean()))
+            score_list.append(numpy.math.sqrt(((numpy.array(y_pred) - numpy.array(y_true)) ** 2).mean()))
         elif score_type == "auc":
             score_list.append(roc_auc_score(y_true, y_pred, average="macro"))
         elif score_type == "accuracy":

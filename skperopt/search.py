@@ -54,12 +54,15 @@ def kfold(X, y, splits):
 
 
 def check_scorer(est, scorer):
+
     est_score = return_score_type(est.scorer)
     scorerclas = return_score_type(scorer)
 
     if est_score == scorerclas:
         return scorer
+
     elif est_score != scorerclas:
+
         return est.scorer
 
 
@@ -78,12 +81,7 @@ def cross_validation(est, X, y, cv=10, scorer="f1", random=False, std=False):
 
     ans = []
 
-    if hasattr(est,"scorer"):
-        scorer = est.scorer
-    if hasattr(est, "cv"):
-        cv = est.cv
-
-    scorertype = check_scorer(est, scorer)
+    scorer = check_scorer(est, scorer)
 
     if random:
         ind = X.index.to_list()

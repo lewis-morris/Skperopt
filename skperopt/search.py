@@ -12,6 +12,87 @@ from hyperopt.base import Trials
 from hyperopt.fmin import fmin
 from hyperopt import tpe
 from hyperopt import hp
+from sklearn.model_selection import StratifiedKFold, KFold
+
+
+def get_splitter(score_type):
+    if score_type in ["f1", "auc", "accuracy"]:
+        return stratifiedkfold
+    else:
+        return kfold
+
+def return_score_type(scorer):
+    if scorer in ["f1", "auc", "accuracy"]:
+        return "classification"
+    else:
+        return "regression"
+
+
+def stratifiedkfold(X, y, splits):
+    skf = StratifiedKFold(n_splits=splits)
+
+    for train_index, test_index in skf.split(X, y):
+        X_train = X.loc[train_index]
+        X_test = X.loc[test_index]  #
+        y_train = y.loc[train_index]
+        y_test = y.loc[test_index]  #
+
+        yield X_train, X_test, y_train, y_test
+
+def kfold(X, y, splits):
+    kf = KFold(n_splits=splits)
+
+    for train_index, test_index in kf.split(X, y):
+        X_train = X.loc[train_index]
+        X_test = X.loc[test_index]  #
+        y_train = y.loc[train_index]
+        y_test = y.loc[test_index]  #
+
+        yield X_train, X_test, y_train, y_test
+
+def check_scorer(est, scorer):
+    est_score = return_score_type(est.scorer)
+    scorer = return_score_type(scorer)
+
+    if est_score == scorer:
+        return scorer
+    elif est_score != scorer:
+        print("fixed")
+        return est.scorer
+
+def change_to_df(df):
+    """Makes sure that the input data is dataframe format if not it is converted
+    also makes sure that the column names are in string format"""
+    if not hasattr(df, "iloc") or hasattr(df, "unique"):
+        df = pandas.DataFrame(df)
+    df.columns = [str(x) for x in df.columns.tolist()]
+    return df
+
+def cross_validation(est, X, y, cv=10, scorer="f1", random=False, std=False):
+
+    X = change_to_df(X).reset_index(drop=True)
+    y = change_to_df(y).reset_index(drop=True)
+
+    ans = []
+    scorer = check_scorer(est, scorer)
+
+    if random:
+        ind = X.index.to_list()
+        rnd.shuffle(ind)
+        X = X.loc[ind]
+        y = y.loc[ind]
+
+    for X_train, X_test, y_train, y_test in get_splitter(scorer)(X, y, cv):
+        est.fit(X_train, y_train)
+        pred = est.predict(X_test)
+        score = get_score(y_test, pred, scorer)
+        ans.append(score)
+
+    if std and return_score_type(scorer) != "regression":
+        score = (numpy.mean(ans) + (numpy.mean(ans) - (numpy.std(ans) * 2))) / 2
+        return score
+    else:
+        return numpy.mean(ans)
 
 
 def scorer_is_better(test_type, new_score, old_score):
@@ -28,126 +109,6 @@ def scorer_is_better(test_type, new_score, old_score):
             return True
         else:
             return False
-
-
-def cross_validation(est, X, y, cv=5, scorer="f1", average_score=True, random=False, split_type="Kfold"):
-    """
-    Can give input as "Stratified" or "Kfold" for split type:
-
-    :param est:
-    :param X:
-    :param y:
-    :param cv:
-    :param scorer:
-    :param average_score:
-    :return:
-    *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-    """
-    if hasattr(est, "best_score"):
-        try:
-            est.pickle_load_score()
-        except:
-            est.best_score = 0
-
-    if scorer in ["f1","auc","accuracy"]:
-        split_type = "Stratified"
-    else:
-        split_type = "Kfold"
-
-
-    score_list = []
-
-    if type(cv) == tuple:
-        loops = cv[1]
-    else:
-        loops = 1
-
-    for loo in range(0, loops):
-        for X_train, X_test, y_train, y_test in get_splitter(split_type)(X, y, folds=cv, random=random):
-            # reshape
-            y_train = numpy.array(y_train).reshape(-1, 1).squeeze()
-            y_test = numpy.array(y_test).reshape(-1, 1).squeeze().ravel()
-
-            # fit -- try both methods
-
-            est.fit(X_train, y_train)
-
-            # predict
-            pred = est.predict(X_test)
-
-            # get score
-            current_score = get_score(y_test, pred, scorer=scorer)
-
-            # append
-            score_list.append(current_score)
-
-    if average_score:
-        score = numpy.mean(score_list)
-        # set best score on estimator if applicable
-        return score
-    else:
-        return score_list
-
-
-def StratifiedKFolds(X, y, folds=5, random=False):
-    # join X & y
-
-    X = change_to_df(X)
-    y = change_to_df(y)
-
-    # check if folds input is a tuple
-    if type(folds) == tuple:
-        folds = folds[0]
-
-    df = pandas.concat([X.reset_index(drop=True), y.reset_index(drop=True)], axis=1)
-    # df = df.loc[random.shuffle(df.index.tolist())]
-    df_dic = {}
-
-    # split the data into classes so stratified folds can be made
-    for x in df.iloc[:, -1].value_counts().index:
-        index = df[df.iloc[:, -1] == x].index.values.tolist()
-        rnd.seed(10)
-        if random:
-            rnd.shuffle(index)
-        df_dic[x] = index
-
-    # create start position dict
-    start_dic = {k: 0 for k, v in df_dic.items()}
-
-    # create df dict for concatenation
-
-    # loop folds
-    for x in range(1, folds + 1):
-        dic_df = {}
-        for k, v in df_dic.items():
-
-            # get len per holdout fold
-            each = int(len(v) / folds)
-
-            # calculate fold index
-            if x == folds:
-                fold = v[start_dic[k]:]
-            else:
-                fold = v[start_dic[k]:each * x]
-
-            # log fold for each class
-            dic_df[k] = df.loc[fold]
-
-            # increment start position for next loop
-            start_dic[k] += each
-
-        # concat df's and yield the folds
-        test = pandas.concat(dic_df.values())
-        train = df[df.index.isin(test.index) == False]
-
-        if random:
-            ind, ind1 = test.index.to_list(), train.index.to_list()
-            shuffle(ind)
-            shuffle(ind1)
-            test = test.loc[ind]
-            train = train.loc[ind1]
-
-        yield train.iloc[:, 0:-1], test.iloc[:, 0:-1], train.iloc[:, -1::], test.iloc[:, -1::]
 
 
 def get_score(y_true, y_pred, scorer):
@@ -176,79 +137,6 @@ def get_score(y_true, y_pred, scorer):
             return None
     return numpy.mean(score_list)
 
-
-def get_splitter(split_type):
-    """
-    "Stratified" or "Kfold"
-
-    :param split_type:
-    :return:
-    """
-    if split_type == "Stratified":
-        return StratifiedKFolds
-    elif split_type == "Kfold":
-        return KFoldSplits
-
-
-def change_to_df(df):
-    """Makes sure that the input data is dataframe format if not it is converted
-    also makes sure that the column names are in string format"""
-    if not hasattr(df, "iloc") or hasattr(df, "unique"):
-        df = pandas.DataFrame(df)
-    df.columns = [str(x) for x in df.columns.tolist()]
-    return df
-
-
-def KFoldSplits(X, y, folds=3, random=False):
-    """
-    -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-    KFold Split Generator
-
-    Input expceted as array or dataframe
-
-    Use as follows:
-
-        for X_train,X_test,y_train,y_test in KFoldSPlits(X,y):
-            do xxxx
-
-    -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-
-    """
-
-    if hasattr(X, "loc"):
-        y = change_to_df(y)
-        df = pandas.concat([X.reset_index(drop=True), y.reset_index(drop=True)], axis=1)
-        index = df.index.values.tolist()
-        rnd.seed(10)
-        if random:
-            rnd.shuffle(index)
-        df = df.loc[index]
-        X = df.iloc[:, 0:-1]
-        y = df.iloc[:, -1::]
-    else:
-        print("Input not a Pandas DataFrame or Pandas Series")
-        return
-
-    starting_rows = 0
-    original_rows_per_fold = int(int(len(df)) / int(folds))
-    rows_per_fold = original_rows_per_fold
-
-    for x in range(folds):
-        if x != 0 and x != folds - 1:
-            starting_rows = rows_per_fold
-            rows_per_fold = rows_per_fold + original_rows_per_fold
-        elif x == folds - 1:
-            starting_rows = rows_per_fold
-            rows_per_fold = (rows_per_fold + ((len(df) + 1) - rows_per_fold)) - 1
-
-        current_rows = [int(x) for x in numpy.arange(starting_rows, rows_per_fold)]
-
-        X_test = X.iloc[current_rows]
-        y_test = y.iloc[current_rows]
-        X_train = X.loc[~X.index.isin(X_test.index)]
-        y_train = y.loc[~y.index.isin(y_test.index)]
-
-        yield X_train, X_test, y_train, y_test
 
 
 def create_hyper(paramgrid):

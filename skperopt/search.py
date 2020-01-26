@@ -21,6 +21,7 @@ def get_splitter(score_type):
     else:
         return kfold
 
+
 def return_score_type(scorer):
     if scorer in ["f1", "auc", "accuracy"]:
         return "classification"
@@ -39,6 +40,7 @@ def stratifiedkfold(X, y, splits):
 
         yield X_train, X_test, y_train, y_test
 
+
 def kfold(X, y, splits):
     kf = KFold(n_splits=splits)
 
@@ -50,15 +52,16 @@ def kfold(X, y, splits):
 
         yield X_train, X_test, y_train, y_test
 
+
 def check_scorer(est, scorer):
     est_score = return_score_type(est.scorer)
-    scorer = return_score_type(scorer)
+    scorerclas = return_score_type(scorer)
 
-    if est_score == scorer:
+    if est_score == scorerclas:
         return scorer
-    elif est_score != scorer:
-        print("fixed")
+    elif est_score != scorerclas:
         return est.scorer
+
 
 def change_to_df(df):
     """Makes sure that the input data is dataframe format if not it is converted
@@ -68,13 +71,19 @@ def change_to_df(df):
     df.columns = [str(x) for x in df.columns.tolist()]
     return df
 
-def cross_validation(est, X, y, cv=10, scorer="f1", random=False, std=False):
 
+def cross_validation(est, X, y, cv=10, scorer="f1", random=False, std=False):
     X = change_to_df(X).reset_index(drop=True)
     y = change_to_df(y).reset_index(drop=True)
 
     ans = []
-    scorer = check_scorer(est, scorer)
+
+    if hasattr(est,"scorer"):
+        scorer = est.scorer
+    if hasattr(est, "cv"):
+        cv = est.cv
+
+    scorertype = check_scorer(est, scorer)
 
     if random:
         ind = X.index.to_list()
@@ -136,6 +145,7 @@ def get_score(y_true, y_pred, scorer):
         else:
             return None
     return numpy.mean(score_list)
+
 
 
 

@@ -113,7 +113,7 @@ def scorer_is_better(test_type, new_score, old_score):
             return True
         else:
             return False
-    elif test_type == "rmse":
+    else:
         if old_score >= new_score:
             return True
         else:
@@ -139,6 +139,8 @@ def get_score(y_true, y_pred, scorer):
             score_list.append(f1_score(y_true, y_pred, average='macro'))
         elif score_type == "rmse":
             score_list.append(mean_squared_error(y_true,y_pred,squared = False))
+        elif score_type == "mse":
+            score_list.append(mean_squared_error(y_true, y_pred, squared=True))
         elif score_type == "auc":
             score_list.append(roc_auc_score(y_true, y_pred, average="macro"))
         elif score_type == "accuracy":

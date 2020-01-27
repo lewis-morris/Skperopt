@@ -15,7 +15,7 @@ Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No ne
 
 ### Recipe (Vanilla Flavour):
 
-- [x]  Import skperopt
+> - [x]  Import skperopt
 - [x]  Initalize skperopt 
 - [x]  Run skperopt.HyperSearch.search
 - [x]  Collect the results

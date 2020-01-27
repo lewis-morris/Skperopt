@@ -1,7 +1,7 @@
 # Skperopt
 A hyperopt wrapper - Simplifying hyperparameter searching with Sklearn style estimators.
 
-Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse".
+Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse" and "mse".
 
 ## Installation:
 

@@ -13,6 +13,7 @@ pip install skperopt
 
 Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
 
+> Recipe:
 1. Import skperopt
 2. Initalize skperopt 
 3. Run skperopt.HyperSearch.search

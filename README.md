@@ -122,9 +122,13 @@ f1 score over 100 test runs
 > Standard deviation **0.0063314**
 
 
+----------------------------------------------------------------------------
+
+
 ### Updates
 
 V0.0.7
+
          *Added **FIXED** RMSE eval metric 
          
          *Added MSE eval metic 

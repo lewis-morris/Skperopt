@@ -1,5 +1,5 @@
 # Skperopt
-A hyperopt wrapper - Simplifying hyperparameter searching with with Sklearn style estimators.
+A hyperopt wrapper - Simplifying hyperparameter searching with Sklearn style estimators.
 
 Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse".
 
@@ -11,7 +11,7 @@ pip install skperopt
 
 ## Usage:
 
-Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
+Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need to define objectives or write hyoperopt specific parameter grids. 
 
 ### Recipe (Vanilla Flavour):
 
@@ -96,6 +96,12 @@ print(search.stats)
 
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
+
+## HyperSearch methods 
+
+* **HyperSearch.search()** (None) 
+> Used to search the parameter grid using hyperopt. No parameters need to be passed to the function. All parameters are set during initialization.
+
 
 # Testing
 

@@ -1,10 +1,9 @@
-# Skperopt
 
- ![](images/logo.png) 
- 
 <p align="center"> 
 <img src="https://github.com/lewis-morris/Skperopt/blob/master/images/logo.png?raw=true">
 </p>
+
+# Skperopt
  
 A hyperopt wrapper - Simplifying hyperparameter searching with Sklearn style estimators.
 

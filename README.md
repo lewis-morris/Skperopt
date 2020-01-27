@@ -78,7 +78,7 @@ print(search.stats)
 > number of folds to use in cross_vaidation tests
 
 * **scorer** (default "f1" *[str]*) 
-> type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+> type of evaluation metric to use - accepts classification "f1","auc","accuracy" or regression "rmse" and "mse"
 
 * **verbose** (default 1 *[int]*) 
 > amount of verbosity 
@@ -120,3 +120,12 @@ f1 score over 100 test runs
 > Mean **0.927461652**
 
 > Standard deviation **0.0063314**
+
+
+### Updates
+
+V0.0.7
+         *Added **FIXED** RMSE eval metric 
+         
+         *Added MSE eval metic 
+         

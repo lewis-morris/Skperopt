@@ -1,7 +1,7 @@
 # Skperopt
-A hyperopt wrapper - Simplifying hyperparameter searching with with Sklearn style estimators.
+A hyperopt wrapper - Simplifying hyperparameter searching with Sklearn style estimators.
 
-Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse".
+Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse" and "mse".
 
 ## Installation:
 
@@ -11,12 +11,14 @@ pip install skperopt
 
 ## Usage:
 
-Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
+Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need to define objectives or write hyoperopt specific parameter grids. 
 
-1. Import skperopt
-2. Initalize skperopt 
-3. Run skperopt.HyperSearch.search
-4. Collect the results
+### Recipe (Vanilla Flavour):
+
+- [x]  Import skperopt
+- [x]  Initalize skperopt 
+- [x]  Run skperopt.HyperSearch.search
+- [x]  Collect the results
 
 Code example below.
 
@@ -42,7 +44,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, cv=5, scorer='f1', params=param)
+search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
 
 #gather and apply the best parameters
@@ -78,7 +80,7 @@ print(search.stats)
 > number of folds to use in cross_vaidation tests
 
 * **scorer** (default "f1" *[str]*) 
-> type of evaluation metric to use - accepts "f1","auc","accuracy" or "rmse"
+> type of evaluation metric to use - accepts classification "f1","auc","accuracy" or regression "rmse" and "mse"
 
 * **verbose** (default 1 *[int]*) 
 > amount of verbosity 
@@ -94,6 +96,12 @@ print(search.stats)
 
 * **foldtype** (default "Kfold" *[str]*) 
 > type of folds to use - accepts "KFold", "Stratified"
+
+## HyperSearch methods 
+
+* **HyperSearch.search()** (None) 
+> Used to search the parameter grid using hyperopt. No parameters need to be passed to the function. All parameters are set during initialization.
+
 
 # Testing
 
@@ -120,3 +128,16 @@ f1 score over 100 test runs
 > Mean **0.927461652**
 
 > Standard deviation **0.0063314**
+
+
+----------------------------------------------------------------------------
+
+
+## Updates
+
+### V0.0.7
+
+* Added **FIXED** RMSE eval metric 
+
+* Added MSE eval metric 
+         

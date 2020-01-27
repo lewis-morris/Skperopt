@@ -125,9 +125,9 @@ f1 score over 100 test runs
 ----------------------------------------------------------------------------
 
 
-### Updates
+## Updates
 
-V0.0.7
+### V0.0.7
 
 * Added **FIXED** RMSE eval metric 
 

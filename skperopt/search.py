@@ -5,7 +5,7 @@ import random as rnd
 import numpy
 import pandas
 from sklearn.metrics import f1_score, roc_auc_score, accuracy_score
-
+from sklearn.metrics import mean_squared_error
 from hyperopt.base import STATUS_SUSPENDED
 from hyperopt.base import STATUS_OK
 from hyperopt.base import Trials
@@ -120,6 +120,7 @@ def scorer_is_better(test_type, new_score, old_score):
             return False
 
 
+
 def get_score(y_true, y_pred, scorer):
     """
     Get score from predicitons and true Y data
@@ -137,7 +138,7 @@ def get_score(y_true, y_pred, scorer):
         if score_type == "f1":
             score_list.append(f1_score(y_true, y_pred, average='macro'))
         elif score_type == "rmse":
-            score_list.append(numpy.math.sqrt(((numpy.array(y_pred) - numpy.array(y_true)) ** 2).mean()))
+            score_list.append(mean_squared_error(y_true,y_pred,squared = False))
         elif score_type == "auc":
             score_list.append(roc_auc_score(y_true, y_pred, average="macro"))
         elif score_type == "accuracy":
@@ -145,8 +146,6 @@ def get_score(y_true, y_pred, scorer):
         else:
             return None
     return numpy.mean(score_list)
-
-
 
 
 def create_hyper(paramgrid):

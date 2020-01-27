@@ -13,7 +13,7 @@ pip install skperopt
 
 Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need do define objectives or write hyoperopt specific parameter grids. 
 
-### Recipe:
+### Recipe (Vanilla Flavour):
 
 - [x]  Import skperopt
 - [x]  Initalize skperopt 
@@ -44,7 +44,7 @@ param = {"n_neighbors": [int(x) for x in np.linspace(1, 60, 30)],
 
 
 #search parameters
-search = sk.HyperSearch(kn, X, y, cv=5, scorer='f1', params=param)
+search = sk.HyperSearch(kn, X, y, params=param)
 search.search()
 
 #gather and apply the best parameters

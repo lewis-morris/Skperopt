@@ -129,7 +129,7 @@ f1 score over 100 test runs
 
 V0.0.7
 
-         *Added **FIXED** RMSE eval metric 
-         
-         *Added MSE eval metic 
+* Added **FIXED** RMSE eval metric 
+
+* Added MSE eval metic 
          

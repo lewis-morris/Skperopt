@@ -223,8 +223,6 @@ class HyperSearch:
         self.random = random
         self.foldtype = foldtype
 
-        if self.verbose > 0:
-            print(f"Initial Score is {self.best_score}")
 
     def __objective(self, params):
         """Objective function for Gradient Boosting Machine Hyperparameter Tuning"""
@@ -276,7 +274,9 @@ class HyperSearch:
         self.__run = 0
         self.__init_score = cross_validation(self.est, self.__X, self.__y, cv=self.cv, scorer=self.scorer)
         self.best_score = self.__init_score
-
+        if self.verbose > 0:
+            print(f"Initial Score is {self.best_score}")
+            
     def search(self):
         """
         Search the parameter grid

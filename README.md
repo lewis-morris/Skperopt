@@ -29,9 +29,11 @@ Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No ne
 Code example below.
 
 ```python
+import skperopt as sk
+
 import pandas as pd
 import numpy as np
-import skperopt as sk
+
 from sklearn.datasets import make_classification
 from sklearn.neighbors import KNeighborsClassifier
 

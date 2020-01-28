@@ -7,7 +7,7 @@
  
 A hyperopt wrapper - simplifying hyperparameter tuning with Scikit-learn style estimators.
 
-Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse" and "mse".
+Works with either classification evaluation metrics "f1", "auc" or "accuracy" AND regression "rmse" and "mse".
 
 ## Installation:
 

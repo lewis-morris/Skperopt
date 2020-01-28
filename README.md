@@ -19,7 +19,7 @@ pip install skperopt
 
 Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need to define objectives or write hyoperopt specific parameter grids. 
 
-### Recipe (Vanilla Flavour):
+### Recipe (vanilla flavour):
 
 - [x]  Import skperopt
 - [x]  Initalize skperopt 

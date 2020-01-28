@@ -1,5 +1,11 @@
+
+<p align="center"> 
+<img src="https://github.com/lewis-morris/Skperopt/blob/master/images/logo.png?raw=true">
+</p>
+
 # Skperopt
-A hyperopt wrapper - Simplifying hyperparameter searching with Sklearn style estimators.
+ 
+A hyperopt wrapper - simplifying hyperparameter tuning with Scikit-learn style estimators.
 
 Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse" and "mse".
 
@@ -13,7 +19,7 @@ pip install skperopt
 
 Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No need to define objectives or write hyoperopt specific parameter grids. 
 
-### Recipe (Vanilla Flavour):
+### Recipe (vanilla flavour):
 
 - [x]  Import skperopt
 - [x]  Initalize skperopt 

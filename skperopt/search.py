@@ -138,7 +138,7 @@ def get_score(y_true, y_pred, scorer):
         if score_type == "f1":
             score_list.append(f1_score(y_true, y_pred, average='macro'))
         elif score_type == "rmse":
-            score_list.append(mean_squared_error(y_true,y_pred,squared = False))
+            score_list.append(mean_squared_error(y_true, y_pred, squared=False))
         elif score_type == "mse":
             score_list.append(mean_squared_error(y_true, y_pred, squared=True))
         elif score_type == "auc":
@@ -276,7 +276,7 @@ class HyperSearch:
         self.best_score = self.__init_score
         if self.verbose > 0:
             print(f"Initial Score is {self.best_score}")
-            
+
     def search(self):
         """
         Search the parameter grid

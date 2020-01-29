@@ -142,7 +142,10 @@ def get_score(y_true, y_pred, scorer):
         elif score_type == "mse":
             score_list.append(mean_squared_error(y_true, y_pred, squared=True))
         elif score_type == "auc":
-            score_list.append(roc_auc_score(y_true, y_pred, average="macro"))
+            try:
+                score_list.append(roc_auc_score(y_true, y_pred, average="macro"))
+            except:
+                score_list.append(roc_auc_score(y_true, y_pred, average="ovo"))
         elif score_type == "accuracy":
             score_list.append(accuracy_score(y_true, y_pred))
         else:

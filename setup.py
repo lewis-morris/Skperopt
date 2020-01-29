@@ -5,6 +5,9 @@ with open('requirements.txt', 'r') as fh:
 
 from setuptools import setup
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name='Skperopt',
     version='0.0.71',
@@ -12,8 +15,10 @@ setup(
     url='https://github.com/lewis-morris/Skperopt',
     license='MIT',
     author='Lewis',
+    description='A hyperopt wrapper - simplifying hyperparameter tuning with Scikit-learn style estimators.',
     author_email='lewis.morris@gmail.com',
-    description='Hyperopt Wrapper',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     install_requires=requirements,
     download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.71.tar.gz',
     keywords=['hyperopt-wrapper', 'hyperparameter'],

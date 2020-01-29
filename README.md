@@ -7,7 +7,7 @@
  
 A hyperopt wrapper - simplifying hyperparameter tuning with Scikit-learn style estimators.
 
-Works with either classification evaluation metrics "f1", "auc" or "accuracy" or regression "rmse" and "mse".
+Works with either classification evaluation metrics "f1", "auc" or "accuracy" AND regression "rmse" and "mse".
 
 ## Installation:
 
@@ -29,9 +29,10 @@ Just pass in an estimator, a parameter grid and Hyperopt will do the rest. No ne
 Code example below.
 
 ```python
-import pandas as pd
-import numpy as np
 import skperopt as sk
+
+import pandas as pd
+
 from sklearn.datasets import make_classification
 from sklearn.neighbors import KNeighborsClassifier
 

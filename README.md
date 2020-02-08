@@ -86,6 +86,9 @@ print(search.stats)
 * **cv** (default 5 *[int]*) 
 > number of folds to use in cross_vaidation tests
 
+* **cv_times** (default 1 *[int]*) 
+> number of times to perfrom cross validation on a new random sample of the data -higher values decrease variance but increase run time
+
 * **scorer** (default "f1" *[str]*) 
 > type of evaluation metric to use - accepts classification "f1","auc","accuracy" or regression "rmse" and "mse"
 

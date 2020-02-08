@@ -12,7 +12,7 @@ from hyperopt.base import Trials
 from hyperopt.fmin import fmin
 from hyperopt import tpe
 from hyperopt import hp
-from sklearn.model_selection import StratifiedKFold, KFold
+from sklearn.model_selection import StratifiedKFold, KFold, train_test_split
 
 
 def get_splitter(score_type):
@@ -63,6 +63,13 @@ def check_scorer(est, scorer):
         return est.scorer
 
 
+def get_default_split_type(est_type):
+    if est_type.lower() == "classification".lower():
+        return "stratified"
+    elif est_type.lower() == "regression".lower():
+        return "kfold"
+
+
 def change_to_df(df):
     """Makes sure that the input data is dataframe format if not it is converted
     also makes sure that the column names are in string format"""
@@ -72,36 +79,42 @@ def change_to_df(df):
     return df
 
 
-def cross_validation(est, X, y, cv=10, scorer="f1", random=False, std=False):
-    X = change_to_df(X).reset_index(drop=True)
-    y = change_to_df(y).reset_index(drop=True)
-
+def cross_validation(est, X, y, cv=10, cv_times=1, scorer=None, fold_type=None, random=False, randomState=1, holdout=0):
+    X = change_to_df(X)
+    y = change_to_df(y)
     ans = []
 
-    if hasattr(est,"scorer"):
+    if scorer == None:
         scorer = est.scorer
-    if hasattr(est, "cv"):
-        cv = est.cv
 
-    scorertype = check_scorer(est, scorer)
+    if fold_type == None:
+        fold_type = get_default_split_type(return_score_type(scorer))
 
-    if random:
-        ind = X.index.to_list()
-        rnd.shuffle(ind)
-        X = X.loc[ind]
-        y = y.loc[ind]
+    if holdout > 0:
+        X, holdX, y, holdy = train_test_split(X, y, test_size=holdout, random_state=10)
 
-    for X_train, X_test, y_train, y_test in get_splitter(scorer)(X, y, cv):
-        est.fit(X_train, y_train)
-        pred = est.predict(X_test)
-        score = get_score(y_test, pred, scorer)
-        ans.append(score)
+    for cv_time in range(cv_times):
 
-    if std and return_score_type(scorer) != "regression":
-        score = (numpy.mean(ans) + (numpy.mean(ans) - (numpy.std(ans) * 2))) / 2
-        return score
+        if random or cv_times > 0:
+            randomState += 10
+            X = X.sample(len(X), random_state=randomState)
+            y = y.loc[X.index]  #
+
+        for X_train, X_test, y_train, y_test in get_splitter(fold_type)(X, y, cv):
+            est.fit(X_train, y_train)
+            pred = est.predict(X_test, y_test)
+            score = get_score(y_test, pred, scorer)
+            ans.append(score)
+
+    score = numpy.mean(ans)
+
+    if holdout > 0:
+        est.fit(X, y)
+        pred = est.predict(holdX)
+        holdscore = get_score(holdy, pred, scorer)
+        return numpy.mean([score, holdscore])
     else:
-        return numpy.mean(ans)
+        return score
 
 
 def scorer_is_better(test_type, new_score, old_score):
@@ -118,7 +131,6 @@ def scorer_is_better(test_type, new_score, old_score):
             return True
         else:
             return False
-
 
 
 def get_score(y_true, y_pred, scorer):
@@ -171,6 +183,7 @@ class HyperSearch:
     :param iters:          number of iterations of searches to try - default 500 = no time contraint
     :param time_to_search: max time in seconds to try searching  - default None = no time contraint
     :param cv:             the number of folds to base the score on
+    :param cv_times:       The number of times to randomly select data and perform cross validation (higher = reduced variance)
     :param scorer:         the scoring method used
     :param verbose:        show information? 0 = no, > 0 increases verboseness
     :param params:         parameter grid - if a mltooler.SelfImprovingEstimator passed then none needed
@@ -186,10 +199,11 @@ class HyperSearch:
 
     """
 
-    def __init__(self, est, X, y, params=None, iters=500, time_to_search=None, cv=5, scorer="f1", verbose=1, random = False, foldtype = "Kfold"):
+    def __init__(self, est, X, y, params=None, iters=500, time_to_search=None, cv=5, cv_times=1, scorer="f1", verbose=1,
+                 random=False, foldtype="Kfold"):
 
         # check and get skiperopt style parameters
-        if params == None and not hasattr(est,"param_grid") :
+        if params == None and not hasattr(est, "param_grid"):
             raise ValueError("No parameters supplied")
         else:
             params = est.param_grid
@@ -206,6 +220,7 @@ class HyperSearch:
         self.verbose = verbose
         self.iters = iters
         self.cv = cv
+        self.cv_times = cv_times
         self.scorer = scorer
         self.__run = 0
 
@@ -225,7 +240,6 @@ class HyperSearch:
 
         self.random = random
         self.foldtype = foldtype
-
 
     def __objective(self, params):
         """Objective function for Gradient Boosting Machine Hyperparameter Tuning"""
@@ -291,8 +305,8 @@ class HyperSearch:
             print("Starting HyperOpt Parameter Search")
 
         best = fmin(fn=self.__objective, space=self.__space, algo=self.__algo,
-             max_evals=self.iters, trials=self.__trial, verbose=self.verbose,
-             timeout=self.time_to_search)
+                    max_evals=self.iters, trials=self.__trial, verbose=self.verbose,
+                    timeout=self.time_to_search)
 
         if self.verbose > 0:
             print("Finished HyperOpt Parameter Search")

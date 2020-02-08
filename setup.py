@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='Skperopt',
-    version='0.0.71',
+    version='0.0.72',
     packages=["skperopt"],
     url='https://github.com/lewis-morris/Skperopt',
     license='MIT',
@@ -20,7 +20,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=requirements,
-    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.71.tar.gz',
+    download_url = 'https://github.com/lewis-morris/Skperopt/archive/0.0.72.tar.gz',
     keywords=['hyperopt-wrapper', 'hyperparameter'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

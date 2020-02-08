@@ -89,6 +89,9 @@ print(search.stats)
 * **cv_times** (default 1 *[int]*) 
 > number of times to perfrom cross validation on a new random sample of the data -higher values decrease variance but increase run time
 
+* **randomState** (default 10 *[int]*) 
+> random state for the data shuffling
+
 * **scorer** (default "f1" *[str]*) 
 > type of evaluation metric to use - accepts classification "f1","auc","accuracy" or regression "rmse" and "mse"
 
@@ -144,6 +147,12 @@ f1 score over 100 test runs
 
 
 ## Updates
+
+### V0.0.73
+
+* Added cv_times attr - runs the cross validation n times (ie cv (5x5) ) each iteration on a new randomly sampled data set
+ this should reduce overfitting 
+
 
 ### V0.0.7
 

@@ -289,7 +289,7 @@ class HyperSearch:
         # When a new search is initiated then reset all the scores
         self.stats = {}
         self.__run = 0
-        self.__init_score = cross_validation(self.est, self.__X, self.__y, cv=self.cv, scorer=self.scorer)
+        self.__init_score = cross_validation(self.est, self.__X, self.__y, cv=self.cv, cv_times=self.cv_times, scorer=self.scorer)
         self.best_score = self.__init_score
         if self.verbose > 0:
             print(f"Initial Score is {self.best_score}")

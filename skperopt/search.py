@@ -227,7 +227,7 @@ class HyperSearch:
         self.est = est
 
         self.stats = {}
-        self.__init_score = cross_validation(self.est, X, y, cv=self.cv, scorer=self.scorer)
+        self.__init_score = cross_validation(self.est, X, y, cv=self.cv, cv_times=self.cv_times,  scorer=self.scorer)
         self.best_score = self.__init_score
 
         self.__X = X
@@ -250,7 +250,7 @@ class HyperSearch:
 
                 est.set_params(**params)
                 best_score = cross_validation(est, self.__X, self.__y,
-                                              cv=self.cv, scorer=self.scorer,
+                                              cv=self.cv, cv_times=self.cv_times, scorer=self.scorer,
                                               random=self.random)
                 if self.verbose > 1:
                     print(f"Current score = {best_score} and best score = {self.best_score}")

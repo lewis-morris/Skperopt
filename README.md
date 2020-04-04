@@ -123,7 +123,7 @@ With 100 tests of 150 search iterations for both RandomSearch and Skperopt Searc
 Skperopt (hyperopt) performs better than a RandomSearch, producing higher average f1 score with a smaller standard deviation.
 
 
-![alt chart](./chart.png "Logo Title Text 1")
+![alt chart](./images/chart.png "Chart")
 
 ### Skperopt Search Results 
 
